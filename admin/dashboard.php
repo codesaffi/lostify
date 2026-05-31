@@ -2,28 +2,33 @@
 
 session_start();
 
+include("../includes/config.php");
 include("../includes/auth.php");
 include("../includes/db.php");
 
-// TOTAL USERS
-$users = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users");
-$totalUsers = mysqli_fetch_assoc($users)['total'];
+// Config, auth aur database connection ready karte hain
+// Yeh file sirf admin ke liye hai isliye auth zaroori hai
 
-// LOST ITEMS
-$lost = mysqli_query($conn, "SELECT COUNT(*) AS total FROM lost_items");
-$totalLost = mysqli_fetch_assoc($lost)['total'];
+// Helper function for count queries
+function getTotal($conn, $sql){
+    $result = mysqli_query($conn, $sql);
+    return mysqli_fetch_assoc($result)['total'];
+}
 
-// FOUND ITEMS
-$found = mysqli_query($conn, "SELECT COUNT(*) AS total FROM found_items");
-$totalFound = mysqli_fetch_assoc($found)['total'];
+// Total users
+$totalUsers = getTotal($conn, "SELECT COUNT(*) AS total FROM users");
 
-// MATCHES
-$matches = mysqli_query($conn, "SELECT COUNT(*) AS total FROM matches");
-$totalMatches = mysqli_fetch_assoc($matches)['total'];
+// Lost items
+$totalLost = getTotal($conn, "SELECT COUNT(*) AS total FROM lost_items");
 
-// RETURNED ITEMS
-$returned = mysqli_query($conn, "SELECT COUNT(*) AS total FROM matches WHERE status='returned'");
-$totalReturned = mysqli_fetch_assoc($returned)['total'];
+// Found items
+$totalFound = getTotal($conn, "SELECT COUNT(*) AS total FROM found_items");
+
+// Matches
+$totalMatches = getTotal($conn, "SELECT COUNT(*) AS total FROM matches");
+
+// Returned items
+$totalReturned = getTotal($conn, "SELECT COUNT(*) AS total FROM matches WHERE status='returned'");
 
 ?>
 
@@ -33,7 +38,9 @@ $totalReturned = mysqli_fetch_assoc($returned)['total'];
 
     <title>Admin Dashboard</title>
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../assets/css/style.css?v=neon-mobilefix-2">
 
 </head>
 <body>
@@ -41,6 +48,7 @@ $totalReturned = mysqli_fetch_assoc($returned)['total'];
 
 <div class="dashboard">
 
+    <!-- Dashboard page title -->
     <h1>📊 Admin Dashboard</h1>
 
     <div class="card-container">

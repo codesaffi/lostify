@@ -1,0 +1,12 @@
+# Allow access to PHP files
+<Files "*.php">
+    Allow from all
+</Files>
+
+# Disable directory listing
+Options -Indexes
+
+# Enable PHP execution
+<IfModule mod_php.c>
+    AddType application/x-httpd-php .php
+</IfModule>

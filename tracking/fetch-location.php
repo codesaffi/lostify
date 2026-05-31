@@ -2,6 +2,7 @@
 
 session_start();
 
+include("../includes/config.php");
 include("../includes/db.php");
 
 $match_id = (int)$_GET['match_id'];

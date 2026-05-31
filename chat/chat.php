@@ -2,6 +2,7 @@
 
 session_start();
 
+include("../includes/config.php");
 include("../includes/db.php");
 include("../includes/functions.php");
 
@@ -86,10 +87,16 @@ while($row = mysqli_fetch_assoc($chatQuery)){
 
     <title>Chats</title>
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../assets/css/style.css?v=neon-mobilefix-2">
 
 </head>
 <body>
+<script>
+    // Set BASE_URL for JavaScript AJAX calls
+    const BASE_URL_JS = "<?php echo BASE_URL; ?>";
+</script>
 <?php include("../includes/header.php"); ?>
 
 <div class="chat-container chat-app">
@@ -118,7 +125,7 @@ while($row = mysqli_fetch_assoc($chatQuery)){
         ?>
 
             <a class="chat-list-item <?php echo $isActive ? 'active' : ''; ?>"
-               href="chat.php?match_id=<?php echo $chat['id']; ?>">
+               href="<?php echo BASE_URL; ?>chat/chat.php?match_id=<?php echo $chat['id']; ?>">
                 <img src="<?php echo htmlspecialchars($imagePath); ?>" alt="">
                 <div>
                     <strong><?php echo htmlspecialchars($otherName); ?></strong>
@@ -202,7 +209,7 @@ if(chatForm){
 
         let match_id = encodeURIComponent(document.getElementById("match_id").value);
 
-        fetch("send-message.php", {
+        fetch(BASE_URL_JS + "chat/send-message.php", {
 
             method: "POST",
 
@@ -231,7 +238,7 @@ function loadMessages(){
 
     let match_id = encodeURIComponent(<?php echo $selected_match_id; ?>);
 
-    fetch(`fetch-messages.php?match_id=${match_id}`)
+    fetch(BASE_URL_JS + `chat/fetch-messages.php?match_id=${match_id}`)
 
     .then(response => response.text())
 

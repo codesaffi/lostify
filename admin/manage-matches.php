@@ -1,14 +1,17 @@
 <?php
 
+include("../includes/config.php");
 include("../includes/auth.php");
 include("../includes/db.php");
 include("../includes/functions.php");
 
 // Approve Match
+// Agar admin approve button click kare to yeh code chalta hai
 if(isset($_GET['approve'])){
 
-    $id = $_GET['approve'];
+    $id = (int) $_GET['approve'];
 
+    // Match status approve par set karo
     mysqli_query(
         $conn,
         "UPDATE matches
@@ -16,27 +19,16 @@ if(isset($_GET['approve'])){
          WHERE id='$id'"
     );
 
-    // GET LOST + FOUND USERS
-
+    // Ab lost aur found item ke owner user IDs lo
     $getUsers = mysqli_query(
-
         $conn,
-
         "SELECT
-
-        lost_items.user_id AS lost_user,
-
-        found_items.user_id AS found_user
-
-        FROM matches
-
-        JOIN lost_items
-        ON matches.lost_item_id = lost_items.id
-
-        JOIN found_items
-        ON matches.found_item_id = found_items.id
-
-        WHERE matches.id='$id'"
+            lost_items.user_id AS lost_user,
+            found_items.user_id AS found_user
+         FROM matches
+         JOIN lost_items ON matches.lost_item_id = lost_items.id
+         JOIN found_items ON matches.found_item_id = found_items.id
+         WHERE matches.id='$id'"
     );
 
     $users = mysqli_fetch_assoc($getUsers);
@@ -71,32 +63,22 @@ if(isset($_GET['approve'])){
 
 if(isset($_GET['returned'])){
 
-    $id = $_GET['returned'];
+    $id = (int) $_GET['returned'];
 
-    // MARK RETURNED
-
+    // Jab item wapas mil jaye to match returned set karo
     mysqli_query(
-
         $conn,
-
         "UPDATE matches
          SET status='returned'
          WHERE id='$id'"
     );
 
-    // GET FINDER
-
+    // Finder ka user_id hasil karo taake use reward aur notification mile
     $query = mysqli_query(
-
         $conn,
-
         "SELECT found_items.user_id AS finder
-
          FROM matches
-
-         JOIN found_items
-         ON matches.found_item_id = found_items.id
-
+         JOIN found_items ON matches.found_item_id = found_items.id
          WHERE matches.id='$id'"
     );
 
@@ -130,7 +112,7 @@ if(isset($_GET['returned'])){
 // Reject Match
 if(isset($_GET['reject'])){
 
-    $id = $_GET['reject'];
+    $id = (int) $_GET['reject'];
 
     mysqli_query(
         $conn,
@@ -140,6 +122,7 @@ if(isset($_GET['reject'])){
     );
 }
 
+// Sabhi matches aur unke related lost/found item details nikalne ke liye query
 $query = "
 
 SELECT
@@ -191,7 +174,9 @@ $result = mysqli_query($conn, $query);
 
     <title>Manage Matches</title>
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../assets/css/style.css?v=neon-mobilefix-2">
 
 </head>
 <body>

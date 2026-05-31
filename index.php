@@ -1,9 +1,12 @@
 <?php
 
-session_start();
-
+// Is page ka kaam hai resolved cases dikhana
+// Yani wo matches jo items wapas mil chuke hain
+include("includes/config.php");
 include("includes/db.php");
 
+// Database se returned status wali matches uthao
+// aur lost/found items ki details saath join karo
 $resolvedQuery = mysqli_query(
     $conn,
     "SELECT
@@ -39,7 +42,8 @@ $resolvedQuery = mysqli_query(
 <html>
 <head>
     <title>Resolved Cases | Lostify</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css?v=neon-mobilefix-2">
 </head>
 <body>
 <?php include("includes/header.php"); ?>
@@ -70,7 +74,8 @@ $resolvedQuery = mysqli_query(
 
     <div class="resolved-grid">
 
-        <?php while($case = mysqli_fetch_assoc($resolvedQuery)){ 
+        <?php // Loop se har resolved case nikal ke card banayenge
+        while($case = mysqli_fetch_assoc($resolvedQuery)){ 
             $lostImage = !empty($case['lost_image']) ? "assets/uploads/" . $case['lost_image'] : "";
             $foundImage = !empty($case['found_image']) ? "assets/uploads/" . $case['found_image'] : "";
         ?>

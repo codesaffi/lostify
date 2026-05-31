@@ -2,6 +2,7 @@
 
 session_start();
 
+include("../includes/config.php");
 include("../includes/db.php");
 include("../includes/functions.php");
 
@@ -153,11 +154,18 @@ $currentUserConfirmed = $user_id === (int)$match['lost_user']
 
     <title>Live Location Tracking</title>
 
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../assets/css/style.css?v=neon-mobilefix-2">
     <link rel="stylesheet"
 href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js">
+</script>
+
+<script>
+    // Set BASE_URL for JavaScript AJAX calls
+    const BASE_URL_JS = "<?php echo BASE_URL; ?>";
 </script>
 
 </head>
@@ -324,7 +332,7 @@ function shareLocation(){
                 document.getElementById("coords").innerHTML =
                     `Latitude: ${lat}<br>Longitude: ${lng}`;
 
-                fetch("update-location.php", {
+                fetch(BASE_URL_JS + "tracking/update-location.php", {
 
                     method: "POST",
 
@@ -351,7 +359,7 @@ function shareLocation(){
 
 function fetchLocation(){
 
-    fetch(`fetch-location.php?match_id=${match_id}`)
+    fetch(BASE_URL_JS + `tracking/fetch-location.php?match_id=${match_id}`)
 
     .then(response => response.json())
 
