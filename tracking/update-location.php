@@ -16,7 +16,7 @@ $match_id = (int)$_POST['match_id'];
 $latitude = mysqli_real_escape_string($conn, $_POST['latitude']);
 
 $longitude = mysqli_real_escape_string($conn, $_POST['longitude']);
-
+ 
 $access = mysqli_query(
     $conn,
     "SELECT matches.id

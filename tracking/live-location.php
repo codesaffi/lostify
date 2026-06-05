@@ -159,7 +159,7 @@ $currentUserConfirmed = $user_id === (int)$match['lost_user']
     <link rel="stylesheet" href="../assets/css/style.css?v=neon-mobilefix-2">
     <link rel="stylesheet"
 href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
+ 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js">
 </script>
 

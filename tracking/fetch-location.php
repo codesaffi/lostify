@@ -11,7 +11,7 @@ $current_user = (int)$_SESSION['user_id'];
 
 $query = "
 
-SELECT *
+SELECT * 
 
 FROM live_locations
 
